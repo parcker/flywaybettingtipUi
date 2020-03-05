@@ -15,9 +15,15 @@
     <script type="text/javascript" src="assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="assets/js/vue.min.js"></script>
 
+    <script type="text/javascript" src="assets/js/index.js"></script>
+
 </head>
 
 <body>
+    <div id="PRE_LOADER_OVERLAY" style="display:none;">
+        <span> <img src="assets/image/rings.svg" /> </span>
+    </div>
+
     <div id="vueAPP">
         <table align="center" cellpadding="0" cellspacing="0">
             <tbody>
@@ -63,10 +69,11 @@
                         <div class="inner" style="border:1px solid #d6d6d6;">
                             <div class="sportsMenu" style="margin:0">
                                 <!--
-         v-for="(row, index) in LIST_RECORD" track-by="Id"
-        -->                    <a :href="'#'+row.id" v-for="(row, index) in GAMES_CATEGORIES" track-by="id" :class="index==0? 'active':''">
+                                 v-for="(row, index) in LIST_RECORD" track-by="Id"
+                                -->
+                                <a :href="'#'+row.id" v-for="(row, index) in GAMES_CATEGORIES" track-by="id" :class="index==0? 'active':''">
                                     {{row.name}}
-                               </a>
+                                </a>
 
                                 <a href="https://www.bettingtips1x2.com/" class="active">Football</a>
                                 <a href="https://www.bettingtips1x2.com/tennis-betting-tips.html">Tennis</a>
@@ -1566,7 +1573,7 @@
                     </td>
                     <td class="sidebar tablet">
                         <div class="inner leftMargin">
-                           
+
                         </div>
                         <div class="inner leftMargin">
                             <a target="_blank" href="http://paypal.com/"><img src="assets/image/flags/paypal.png"></a>
@@ -1589,59 +1596,6 @@
 
     </div>
 
-    <script type="text/javascript">
-        //   var API_URL = "";
-        //  var APP_NAME = "Betting Nigeria";
-        //  setInterval(function () { vueAPP.GetDashboardValues(); }, 1000000);
-
-        $(document).ready(function () {
-            vueAPP.GetGamesCategory();
-            //setInterval(function () { vueAPP.GetDashboardValues(); }, 1000000);
-        });
-
-        var vueAPP = new Vue({
-            el: '#vueAPP',
-            data: {
-                AppEnv: { Name: 'Betting Nigeria', },
-                GAMES_CATEGORIES: [],
-            },
-
-            methods: {
-                /* setTimeout(function () {
-                        vueAPP.LIST_BULK = vueAPP.LIST_BULK.filter(function (el) { return el.Id != row.Id; });  PageLoading.Hide();
-                    }, 30); */
-                //http://flywaytips.herokuapp.com/games/GetGamecategory
-                GetGamesCategory: function () {
-                    this.GAMES_CATEGORIES = [];
-                    $.get(API_URL + '/games/GetGamecategory', {}, function (response) {
-                        vueAPP.GAMES_CATEGORIES = response.result;
-                        console.log('Response Categories', vueAPP.GAMES_CATEGORIES);   //result:[], length:0, status:true/false
-                        /* createdby: ""
-​​
-dateCreated: "2020-02-27T13:56:49.228Z"
-​​
-dateUpdated: "2020-02-27T13:56:49.228Z"
-​​
-id: "a16a1eef-543f-46f9-aca2-a6e395213eaf"
-​​
-isDisabled: true
-​​
-name: "test QA"
-​​
-updatedby: "" */
-                    });
-                }
-
-
-
-            }
-        });
-
-
-
-
-
-    </script>
 
 </body>
 

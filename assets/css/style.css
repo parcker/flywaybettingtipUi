@@ -1,5 +1,7 @@
+/*
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
 @import url('https://fonts.googleapis.com/css?family=Raleway');
+*/
 body {
 	font-size:13px;
 	font-family: 'Raleway', sans-serif;
@@ -322,4 +324,37 @@ td.win {
 }
 td.lose { 
 	background-color:#D40001 !important;
+}
+
+
+#PRE_LOADER_OVERLAY {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	/*background-color: #000;*/
+	background-color: #ccc;
+	-moz-opacity: 0.6;
+	opacity: 0.6;
+	z-index: 3000;
+}
+
+	#PRE_LOADER_OVERLAY span {
+		padding: 5px;
+		border-radius: 5px;
+		/*height: 100px;
+        width: 100px;*/
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-left: -50px;
+		margin-top: -50px;
+		display: block;
+	}
+
+
+[v-cloak] {
+	display: none;
 }
