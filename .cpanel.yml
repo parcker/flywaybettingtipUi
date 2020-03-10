@@ -1,6 +1,6 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/flywaybe/repositories/flywaybettingtipUi
+    - export DEPLOYPATH=/home/flywaybe/public_html/flywayApp
     - /bin/cp * $DEPLOYPATH
    
