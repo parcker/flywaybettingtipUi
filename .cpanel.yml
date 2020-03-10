@@ -2,5 +2,5 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/flywaybe/public_html/
-    - /bin/cp * $DEPLOYPATH
+    - /bin/cp assets/* $DEPLOYPATH
    
