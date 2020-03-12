@@ -70,7 +70,7 @@
                                 <!--
                                  v-for="(row, index) in LIST_RECORD" track-by="Id"
                                 -->
-                                <a href="#" v-for="(row, index) in GAMES_CATEGORIES" track-by="id" :class="index==0? 'active':''" 
+                                <a href="#" v-for="(row, index) in GAMES_CATEGORIES" track-by="id" :class="index==0? 'active':''"
                                    v-on:click="GetCategoryGames(row);">
                                     {{row.name}}
                                 </a>
@@ -229,60 +229,126 @@
                             </a>
                             <br><hr>
                             -->
+                            <div v-if="IsGame">
+                                <span class="tablet">
+                                    <center>Betting Tips - Monday, 24 February 2020.</center>
+                                </span>
+                                <h2 class="head" style="text-align:center;">
+                                    <a href="#2020-02-23.html" class="button"
+                                       style="float:left;">« Prev</a>
+                                    {{moment(Game.gamestartTime).format('ddd LL')}}
+                                    <a href="#2020-02-25.html" class="button"
+                                       style="float:right;">Next »</a>
+                                </h2>
 
-                            <span class="tablet">
-                                <center>Betting Tips - Monday, 24 February 2020.</center>
-                            </span>
-                            <h2 class="head" style="text-align:center;">
-                                <a href="#2020-02-23.html" class="button"
-                                   style="float:left;">« Prev</a> 
-                                {{moment(Game.gamestartTime).format('ddd LL')}}
-                                <a href="#2020-02-25.html" class="button"
-                                   style="float:right;">Next »</a>
-                            </h2>
+                                <div class="clear"></div>
 
-                            <div class="clear"></div>
+                                <div>
+                                    Order by:
+                                    <input name="order" type="radio" class="order" value="game_time,game_comp"
+                                           checked="checked"> Time <input name="order" type="radio" class="order"
+                                                                          value="game_comp,game_time"> Competition
+                                </div>   
+                                <table width="100%" class="results" cellpadding="0" cellspacing="0">
+                                    <tbody>
+                                        <tr>
+                                            <th colspan="3">&nbsp;</th>
+                                            <th class="desktop">&nbsp;</th>
+                                            <th class="desktop" colspan="3">Odds</th>
+                                            <th>Tip</th>
+                                        </tr>
 
-                            <div>
-                                Order by:
-                                <input name="order" type="radio" class="order" value="game_time,game_comp"
-                                       checked="checked"> Time <input name="order" type="radio" class="order"
-                                                                      value="game_comp,game_time"> Competition
+                                        <tr v-for="(item, index) in GAMES" track-by="id">
+                                            <td>
+                                                <img :src="item.image"
+                                                     style="margin-right:5px;"
+                                                     :alt="item.league" width="16" height="16">
+                                            </td>
+                                            <td class="desktop">{{item.league}} </td>
+                                            <td> {{moment(item.gamestartTime).format('HH:mm')}}</td>
+                                            <td>
+                                                <a href="#">
+                                                    {{item.hometeam}} - {{item.awayteam}}
+                                                </a>
+                                            </td>
+                                            <td align="center" class="desktop"> {{getGameOdd(item.gameodds, "Home win").value}} </td>
+                                            <td align="center" class="desktop">  {{getGameOdd(item.gameodds, "Draw").value}} </td>
+                                            <td align="center" class="desktop">  {{getGameOdd(item.gameodds, "Away win").value}} </td>
+                                            <td align="center">{{item.gameprediction.bothresult}}</td>
+                                            <td align="right">
+                                                <a class="button grey" href="#" v-on:click="Game=item;IsGame=false;">More</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                             {{Game}}
+                            <div v-else>
 
-                            <table width="100%" class="results" cellpadding="0" cellspacing="0">
-                                <tbody>
-                                    <tr>
-                                        <th colspan="3">&nbsp;</th>
-                                        <th class="desktop">&nbsp;</th>
-                                        <th class="desktop" colspan="3">Odds</th>
-                                        <th>Tip</th>
-                                    </tr>
+                                <div class="innerBox">
+                                    <center>
+                                        <strong><img :src="Game.image" alt="" width="16px" height="16"> {{Game.league}} </strong>
+                                        <h2 class="head">{{Game.hometeam}} - {{Game.awayteam}}</h2>
+                                        {{moment(Game.gamestartTime).format('ddd LL')}}
+                                    </center>
+                                </div>
+                                <div class="innerBox">
+                                    <h2 class="top">Our Predictions</h2>
+                                    <p>Result: <strong>{{Game.gameprediction.bothresult}} </strong></p>
+                                    <p>Winner: <strong>{{Game.gameprediction.winner}}</strong></p>
+                                    <p>Goals: <strong>Under 2.5 (xxx Coming from where?)</strong></p>
+                                    <p>
+                                        Both teams to score:
+                                        <strong v-if="Game.gameprediction.bothteamToscore">Yes </strong>
+                                        <strong v-else>No </strong>
+                                    </p>
+                                </div>
+                                <div class="innerBox">
+                                    <h2>Odds</h2>
+                                    <p v-for="(iodd, index) in Game.gameodds" track-by="id"> {{iodd.name}} {{iodd.value}}</p>
+                                </div>
 
-                                    <tr  v-for="(item, index) in GAMES" track-by="id">
-                                        <td>
-                                            <img :src="item.image" 
-                                                 style="margin-right:5px;"
-                                                 :alt="item.league" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">{{item.league}} </td>
-                                        <td> {{moment(item.gamestartTime).format('HH:mm')}}</td>
-                                        <td>
-                                            <a href="#">
-                                                {{item.hometeam}} - {{item.awayteam}}
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop"> {{getGameOdd(item.gameodds, "Home win").value}} </td>
-                                        <td align="center" class="desktop">  {{getGameOdd(item.gameodds, "Draw").value}} </td>
-                                        <td align="center" class="desktop">  {{getGameOdd(item.gameodds, "Away win").value}} </td>
-                                        <td align="center">{{item.gameprediction.bothresult}}</td>
-                                        <td align="right">
-                                            <a class="button grey" href="#">More</a>
-                                        </td>
-                                    </tr>    
-                                </tbody>
-                            </table>
+
+                                <div class="innerBox">
+                                    <div id="vote_done" style="display:none">
+                                        <h2>Votes</h2>
+                                        <table align="center" style="text-align:center">
+                                            <tbody>
+                                                <tr>
+                                                    <td width="33%"><strong>New York City FC</strong></td>
+                                                    <td><strong>Draw</strong></td>
+                                                    <td width="33%"><strong>UANL Tigres</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="33%"><h5>14%</h5></td>
+                                                    <td width="33%"><h5>31%</h5></td>
+                                                    <td width="33%"><h5>55%</h5></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>(108 votes)</td>
+                                                    <td>(241 votes)</td>
+                                                    <td>(420 votes)</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div id="vote" class="smallbox">
+                                        <h2>Who will win ?</h2>
+                                        <p>Vote to see other users choice.</p><br>
+                                      <span class="button vote" data-team="1">{{Game.hometeam}}</span>
+                                        <span class="button vote" data-team="x">Draw</span>
+                                        <span class="button vote" data-team="2">{{Game.awayteam}}</span>
+                                    </div>
+                                </div>
+
+
+                                <div class="innerBox">
+                                    <div class="smallbox">
+                                        <a class="button gray" v-on:click="IsGame=true;">Back</a>
+                                    </div>
+                                </div>
+
+                            </div>
+
                         </div>
 
                     </td>

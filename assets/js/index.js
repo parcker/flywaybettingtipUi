@@ -14,7 +14,7 @@ var vuePage = new Vue({
     el: '#vuePage',
     data: {
         AppEnv: { Name: 'Betting Nigeria', },
-        GAMES_CATEGORIES: [], GAMES: [], Game: {}
+        GAMES_CATEGORIES: [], GAMES: [], Game: {}, IsGame:true
     },
 
     methods: {
@@ -67,6 +67,7 @@ home - AWAY   HOME, DRAW, AWAY    */
 
             PageLoader.Show();
             this.GAMES = [];
+            this.IsGame = true;
             try {
                 $.get(API_URL + `/games/GetGamebyCategoryAndDate/${gamedate}/${categoryId}`, {}, function (response) {
                     PageLoader.Hide();
