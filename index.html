@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <title>Betting tips </title>
-    <meta name="description" content="Professional football betting tips by bettingtips1x2.com">
+    <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="content-language" content="en">
     <link href="assets/css/style.css" rel="stylesheet">
@@ -13,9 +13,8 @@
     <style type="text/css">
     </style>
     <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
     <script type="text/javascript" src="assets/js/vue.min.js"></script>
-
-    <script type="text/javascript" src="assets/js/index.js"></script>
 
 </head>
 
@@ -24,7 +23,7 @@
         <span> <img src="assets/image/rings.svg" /> </span>
     </div>
 
-    <div id="vueAPP">
+    <div id="vuePage">
         <table align="center" cellpadding="0" cellspacing="0">
             <tbody>
                 <tr>
@@ -33,7 +32,7 @@
                             <img src="assets/image/logo.png">
                             <h1>{{AppEnv.Name}} <b>  </b> </h1>
                         </a>
-                        <p class="tablet">Professional football betting tips by bettingtips1x2.com</p>
+                        <p class="tablet">Professional {{AppEnv.Name}} </p>
                         <div class="menu desktop">
                             <a href="https://www.bettingtips1x2.com/">Betting Tips</a>
                             <a href="https://www.bettingtips1x2.com/toptips.html">Today's Top</a>
@@ -71,16 +70,17 @@
                                 <!--
                                  v-for="(row, index) in LIST_RECORD" track-by="Id"
                                 -->
-                                <a :href="'#'+row.id" v-for="(row, index) in GAMES_CATEGORIES" track-by="id" :class="index==0? 'active':''">
+                                <a href="#" v-for="(row, index) in GAMES_CATEGORIES" track-by="id" :class="index==0? 'active':''" 
+                                   v-on:click="GetCategoryGames(row);">
                                     {{row.name}}
                                 </a>
 
                                 <a href="https://www.bettingtips1x2.com/" class="active">Football</a>
-                                <a href="https://www.bettingtips1x2.com/tennis-betting-tips.html">Tennis</a>
+                                <!--<a href="https://www.bettingtips1x2.com/tennis-betting-tips.html">Tennis</a>
                                 <a href="https://www.bettingtips1x2.com/hockey-betting-tips.html">Ice Hockey</a>
                                 <a href="https://www.bettingtips1x2.com/baseball-betting-tips.html">Baseball</a>
                                 <a href="https://www.bettingtips1x2.com/basketball-betting-tips.html">Basketball</a>
-                                <a href="https://www.bettingtips1x2.com/nfl-betting-tips.html">American Football</a>
+                                <a href="https://www.bettingtips1x2.com/nfl-betting-tips.html">American Football</a>-->
                             </div>
                         </div>
                         <div class="inner" style="border:1px solid #d6d6d6;">
@@ -136,11 +136,12 @@
                                         <td>Sebastien Duval</td>
                                         <td align="center">5/5</td>
                                     </tr>
-                                    <tr>
-                                        <td><img class="flag" src="assets/image/flags/South-Africa.png"></td>
+                                    <!--<tr>
+                                        <td><img class="flag"
+                                                 src="assets/image/flags/South-Africa.png"></td>
                                         <td>Donald Sibanda</td>
                                         <td align="center">5/5</td>
-                                    </tr>
+                                    </tr>-->
                                     <tr>
                                         <td><img class="flag" src="assets/image/flags/Czech.png"></td>
                                         <td>Marek Bezdicka</td>
@@ -219,19 +220,7 @@
                                 </a>
                             </center>
                         </div>
-                        <script async="" src="assets/image/flags/analytics.js.download"></script>
-                        <script src="assets/image/flags/jquery.min.js.download"></script>
-                        <script>
-                            $(document).ready(function () {
-                                $(".order").change(function () {
-                                    var order = $('.order:checked').val();
-                                    document.cookie = "order=" + order + "; expires=Thu, 18 Dec 2021 12:00:00 UTC; path=/;";
-                                    location.reload();
-                                });
 
-
-                            });
-                        </script>
                         <div class="inner">
                             <!--
                             <a href="/worldcup.html">
@@ -245,9 +234,11 @@
                                 <center>Betting Tips - Monday, 24 February 2020.</center>
                             </span>
                             <h2 class="head" style="text-align:center;">
-                                <a href="https://www.bettingtips1x2.com/tips/2020-02-23.html" class="button"
-                                   style="float:left;">« Prev</a> 24 February 2020 <a href="https://www.bettingtips1x2.com/tips/2020-02-25.html" class="button"
-                                                                                      style="float:right;">Next »</a>
+                                <a href="#2020-02-23.html" class="button"
+                                   style="float:left;">« Prev</a> 
+                                {{moment(Game.gamestartTime).format('ddd LL')}}
+                                <a href="#2020-02-25.html" class="button"
+                                   style="float:right;">Next »</a>
                             </h2>
 
                             <div class="clear"></div>
@@ -258,7 +249,7 @@
                                        checked="checked"> Time <input name="order" type="radio" class="order"
                                                                       value="game_comp,game_time"> Competition
                             </div>
-
+                             {{Game}}
 
                             <table width="100%" class="results" cellpadding="0" cellspacing="0">
                                 <tbody>
@@ -268,1304 +259,28 @@
                                         <th class="desktop" colspan="3">Odds</th>
                                         <th>Tip</th>
                                     </tr>
-                                    <tr>
+
+                                    <tr  v-for="(item, index) in GAMES" track-by="id">
                                         <td>
-                                            <img src="assets/image/flags/Chilean.png" style="margin-right:5px;"
-                                                 alt="Chilean Primera B" width="16" height="16">
+                                            <img :src="item.image" 
+                                                 style="margin-right:5px;"
+                                                 :alt="item.league" width="16" height="16">
                                         </td>
-                                        <td class="desktop">Chilean Primera B</td>
-                                        <td>00:30</td>
+                                        <td class="desktop">{{item.league}} </td>
+                                        <td> {{moment(item.gamestartTime).format('HH:mm')}}</td>
                                         <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2386004.html">
-                                                Deportes
-                                                Temuco - Nublense
+                                            <a href="#">
+                                                {{item.hometeam}} - {{item.awayteam}}
                                             </a>
                                         </td>
-                                        <td align="center" class="desktop">2.07</td>
-                                        <td align="center" class="desktop">3.10</td>
-                                        <td align="center" class="desktop">3.53</td>
-                                        <td align="center">0:0</td>
+                                        <td align="center" class="desktop"> {{getGameOdd(item.gameodds, "Home win").value}} </td>
+                                        <td align="center" class="desktop">  {{getGameOdd(item.gameodds, "Draw").value}} </td>
+                                        <td align="center" class="desktop">  {{getGameOdd(item.gameodds, "Away win").value}} </td>
+                                        <td align="center">{{item.gameprediction.bothresult}}</td>
                                         <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2386004.html">More</a>
+                                            <a class="button grey" href="#">More</a>
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Colombian.png" style="margin-right:5px;"
-                                                 alt="Colombian Primera A" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Colombian Primera A</td>
-                                        <td>00:30</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2381819.html">
-                                                Once
-                                                Caldas - Boyaca Patriotas
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">1.57</td>
-                                        <td align="center" class="desktop">3.55</td>
-                                        <td align="center" class="desktop">6.25</td>
-                                        <td align="center">1:2</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2381819.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Argentinian.png" style="margin-right:5px;"
-                                                 alt="Argentinian Primera" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Argentinian Primera</td>
-                                        <td>00:45</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2354626.html">
-                                                Estudiantes
-                                                de La Plata - River Plate
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">4.82</td>
-                                        <td align="center" class="desktop">3.37</td>
-                                        <td align="center" class="desktop">1.77</td>
-                                        <td align="center">1:3</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2354626.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Mexican.png" style="margin-right:5px;"
-                                                 alt="Mexican Liga Ascenso" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Mexican Liga Ascenso</td>
-                                        <td>01:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2395297.html">
-                                                Tampico
-                                                Madero - Alebrijes De Oaxaca
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.08</td>
-                                        <td align="center" class="desktop">2.98</td>
-                                        <td align="center" class="desktop">3.78</td>
-                                        <td align="center">0:2</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2395297.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Mexican.png" style="margin-right:5px;"
-                                                 alt="Mexican Primera" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Mexican Primera</td>
-                                        <td>01:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2370264.html">
-                                                Juarez
-                                                FC - Santos Laguna
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">3.05</td>
-                                        <td align="center" class="desktop">3.35</td>
-                                        <td align="center" class="desktop">2.20</td>
-                                        <td align="center">0:1</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2370264.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Indian.png" style="margin-right:5px;"
-                                                 alt="Indian League 1" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Indian League 1</td>
-                                        <td>08:30</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2369597.html">
-                                                Real
-                                                Kashmir FC - Indian Arrows
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">1.52</td>
-                                        <td align="center" class="desktop">3.85</td>
-                                        <td align="center" class="desktop">5.85</td>
-                                        <td align="center">1:0</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2369597.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Bangladesh.png" style="margin-right:5px;"
-                                                 alt="Bangladesh Premier League" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Bangladesh Premier League</td>
-                                        <td>12:30</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2399419.html">
-                                                Sheikh
-                                                Russel - Mohammedan Dhaka
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.11</td>
-                                        <td align="center" class="desktop">3.30</td>
-                                        <td align="center" class="desktop">3.20</td>
-                                        <td align="center">0:2</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2399419.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Dutch.png" style="margin-right:5px;"
-                                                 alt="Dutch Reservecompetitie" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Dutch Reservecompetitie</td>
-                                        <td>13:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2399683.html">
-                                                Jong
-                                                Zwolle - Jong Heerenven
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.39</td>
-                                        <td align="center" class="desktop">3.63</td>
-                                        <td align="center" class="desktop">2.52</td>
-                                        <td align="center">2:0</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2399683.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Italian.png" style="margin-right:5px;"
-                                                 alt="Italian Primavera" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Italian Primavera</td>
-                                        <td>13:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2399430.html">
-                                                AS
-                                                Roma U19 - Napoli U19
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">1.42</td>
-                                        <td align="center" class="desktop">4.77</td>
-                                        <td align="center" class="desktop">5.65</td>
-                                        <td align="center">4:1</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2399430.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Dutch.png" style="margin-right:5px;"
-                                                 alt="Dutch Reservecompetitie" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Dutch Reservecompetitie</td>
-                                        <td>13:30</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2399539.html">
-                                                Jong
-                                                Groningen - Heracles Almelo
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">1.65</td>
-                                        <td align="center" class="desktop">4.13</td>
-                                        <td align="center" class="desktop">4.13</td>
-                                        <td align="center">1:2</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2399539.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/AFC.png" style="margin-right:5px;"
-                                                 alt="AFC Cup" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">AFC Cup</td>
-                                        <td>14:45</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2376758.html">
-                                                AL-Wathba
-                                                SC - Al Kuwait
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">4.17</td>
-                                        <td align="center" class="desktop">3.35</td>
-                                        <td align="center" class="desktop">1.85</td>
-                                        <td align="center">1:1</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2376758.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/AFC.png" style="margin-right:5px;"
-                                                 alt="AFC Cup" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">AFC Cup</td>
-                                        <td>15:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2376755.html">
-                                                Manama
-                                                Club - Al Ahed
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.38</td>
-                                        <td align="center" class="desktop">3.28</td>
-                                        <td align="center" class="desktop">2.81</td>
-                                        <td align="center">1:2</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2376755.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Bulgarian.png" style="margin-right:5px;"
-                                                 alt="Bulgarian Pr. League" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Bulgarian Pr. League</td>
-                                        <td>15:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2370316.html">
-                                                Slavia
-                                                Sofia - PFC Dunav Ruse
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">1.42</td>
-                                        <td align="center" class="desktop">4.35</td>
-                                        <td align="center" class="desktop">6.80</td>
-                                        <td align="center">2:0</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2370316.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Portuguese.png" style="margin-right:5px;"
-                                                 alt="Portuguese Campeonato de Portugal" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Portuguese Campeonato de Portugal</td>
-                                        <td>15:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2388701.html">
-                                                Sertanense
-                                                - Fatima
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.26</td>
-                                        <td align="center" class="desktop">3.12</td>
-                                        <td align="center" class="desktop">3.07</td>
-                                        <td align="center">0:1</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2388701.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Romanian.png" style="margin-right:5px;"
-                                                 alt="Romanian Liga 2" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Romanian Liga 2</td>
-                                        <td>15:30</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2384841.html">
-                                                Csikszereda
-                                                - UTA Arad
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">3.00</td>
-                                        <td align="center" class="desktop">3.23</td>
-                                        <td align="center" class="desktop">2.23</td>
-                                        <td align="center">1:2</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2384841.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/AFC.png" style="margin-right:5px;"
-                                                 alt="AFC Cup" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">AFC Cup</td>
-                                        <td>16:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2376756.html">
-                                                Hilal
-                                                Al-Quds - Al Jaish
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">3.38</td>
-                                        <td align="center" class="desktop">3.12</td>
-                                        <td align="center" class="desktop">2.16</td>
-                                        <td align="center">1:3</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2376756.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Algerian.png" style="margin-right:5px;"
-                                                 alt="Algerian Ligue 1" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Algerian Ligue 1</td>
-                                        <td>16:45</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2378273.html">
-                                                USM
-                                                Alger - MC Alger
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.44</td>
-                                        <td align="center" class="desktop">3.28</td>
-                                        <td align="center" class="desktop">2.66</td>
-                                        <td align="center">2:1</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2378273.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/AFC.png" style="margin-right:5px;"
-                                                 alt="AFC Cup" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">AFC Cup</td>
-                                        <td>17:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2376757.html">
-                                                Al
-                                                Ansar - Al Faisaly
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.58</td>
-                                        <td align="center" class="desktop">3.12</td>
-                                        <td align="center" class="desktop">2.68</td>
-                                        <td align="center">1:3</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2376757.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Czech.png" style="margin-right:5px;"
-                                                 alt="Czech 1. Liga" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Czech 1. Liga</td>
-                                        <td>17:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2370162.html">
-                                                Banik
-                                                Ostrava - FK Jablonec
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.16</td>
-                                        <td align="center" class="desktop">3.20</td>
-                                        <td align="center" class="desktop">3.42</td>
-                                        <td align="center">2:1</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2370162.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Israeli.png" style="margin-right:5px;"
-                                                 alt="Israeli Liga Leumit" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Israeli Liga Leumit</td>
-                                        <td>17:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2365815.html">
-                                                Hapoel
-                                                Um El Fahem - Maccabi Petach-Tikva
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">4.90</td>
-                                        <td align="center" class="desktop">3.67</td>
-                                        <td align="center" class="desktop">1.63</td>
-                                        <td align="center">1:3</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2365815.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Israeli.png" style="margin-right:5px;"
-                                                 alt="Israeli Liga Leumit" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Israeli Liga Leumit</td>
-                                        <td>17:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2365816.html">
-                                                Maccabi
-                                                Achi Nazereth - Hapoel Katamon
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">3.43</td>
-                                        <td align="center" class="desktop">2.96</td>
-                                        <td align="center" class="desktop">2.17</td>
-                                        <td align="center">2:1</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2365816.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Israeli.png" style="margin-right:5px;"
-                                                 alt="Israeli Liga Leumit" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Israeli Liga Leumit</td>
-                                        <td>17:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2365817.html">
-                                                Hapoel
-                                                Bnei Lod - FC Rishon Lezion
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">4.52</td>
-                                        <td align="center" class="desktop">3.43</td>
-                                        <td align="center" class="desktop">1.73</td>
-                                        <td align="center">2:3</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2365817.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Turkish.png" style="margin-right:5px;"
-                                                 alt="Turkish Super Lig" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Turkish Super Lig</td>
-                                        <td>17:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2355797.html">
-                                                Caykur
-                                                Rizespor - Istanbul Basaksehir
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">3.27</td>
-                                        <td align="center" class="desktop">3.32</td>
-                                        <td align="center" class="desktop">2.16</td>
-                                        <td align="center">0:1</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2355797.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Turkish.png" style="margin-right:5px;"
-                                                 alt="Turkish Super Lig" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Turkish Super Lig</td>
-                                        <td>17:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2355803.html">
-                                                Kasimpasa
-                                                - Denizlispor
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.03</td>
-                                        <td align="center" class="desktop">3.60</td>
-                                        <td align="center" class="desktop">3.33</td>
-                                        <td align="center">1:0</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2355803.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Egyptian.png" style="margin-right:5px;"
-                                                 alt="Egyptian Pr. League" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Egyptian Pr. League</td>
-                                        <td>17:30</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2380562.html">
-                                                Al-Ahly
-                                                Cairo - Zamalek
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">1.80</td>
-                                        <td align="center" class="desktop">3.40</td>
-                                        <td align="center" class="desktop">4.35</td>
-                                        <td align="center">0:0</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2380562.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Danish.png" style="margin-right:5px;"
-                                                 alt="Danish Superliga" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Danish Superliga</td>
-                                        <td>18:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2371642.html">
-                                                AC
-                                                Horsens - AGF Aarhus
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">3.80</td>
-                                        <td align="center" class="desktop">3.57</td>
-                                        <td align="center" class="desktop">1.97</td>
-                                        <td align="center">0:3</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2371642.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/German.png" style="margin-right:5px;"
-                                                 alt="German 3. Liga" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">German 3. Liga</td>
-                                        <td>18:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2389420.html">
-                                                Chemnitz
-                                                - FC Bayern München II
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.43</td>
-                                        <td align="center" class="desktop">3.48</td>
-                                        <td align="center" class="desktop">2.56</td>
-                                        <td align="center">0:1</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2389420.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Moroccan.png" style="margin-right:5px;"
-                                                 alt="Moroccan GNF I" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Moroccan GNF I</td>
-                                        <td>18:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2393677.html">
-                                                Raja
-                                                Casablanca - Renaissance Ezzmamra
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">1.59</td>
-                                        <td align="center" class="desktop">3.50</td>
-                                        <td align="center" class="desktop">5.70</td>
-                                        <td align="center">1:1</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2393677.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Romanian.png" style="margin-right:5px;"
-                                                 alt="Romanian Liga 1" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Romanian Liga 1</td>
-                                        <td>18:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2372807.html">
-                                                Botosani
-                                                - Iasi
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">1.63</td>
-                                        <td align="center" class="desktop">3.58</td>
-                                        <td align="center" class="desktop">5.70</td>
-                                        <td align="center">2:0</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2372807.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Swedish.png" style="margin-right:5px;"
-                                                 alt="Swedish Cup" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Swedish Cup</td>
-                                        <td>18:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2369656.html">
-                                                GIF
-                                                Sundsvall - IF Brommapojkarna
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">1.51</td>
-                                        <td align="center" class="desktop">4.23</td>
-                                        <td align="center" class="desktop">5.80</td>
-                                        <td align="center">2:0</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2369656.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Swedish.png" style="margin-right:5px;"
-                                                 alt="Swedish Cup" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Swedish Cup</td>
-                                        <td>18:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2349691.html">
-                                                Hammarby
-                                                - Varbergs
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">1.29</td>
-                                        <td align="center" class="desktop">5.60</td>
-                                        <td align="center" class="desktop">8.70</td>
-                                        <td align="center">3:1</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2349691.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Israeli.png" style="margin-right:5px;"
-                                                 alt="Israeli Premier League" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Israeli Premier League</td>
-                                        <td>18:15</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2358684.html">
-                                                Maccabi
-                                                Tel-Aviv - Hapoel Tel-Aviv
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">1.35</td>
-                                        <td align="center" class="desktop">4.37</td>
-                                        <td align="center" class="desktop">8.25</td>
-                                        <td align="center">2:1</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2358684.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Dutch.png" style="margin-right:5px;"
-                                                 alt="Dutch Eerste Divisie" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Dutch Eerste Divisie</td>
-                                        <td>19:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2391307.html">
-                                                Jong
-                                                AZ Alkmaar - FC Eindhoven
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.06</td>
-                                        <td align="center" class="desktop">3.88</td>
-                                        <td align="center" class="desktop">3.05</td>
-                                        <td align="center">0:2</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2391307.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Dutch.png" style="margin-right:5px;"
-                                                 alt="Dutch Eerste Divisie" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Dutch Eerste Divisie</td>
-                                        <td>19:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2391311.html">
-                                                Jong
-                                                Utrecht - Volendam
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">3.93</td>
-                                        <td align="center" class="desktop">4.25</td>
-                                        <td align="center" class="desktop">1.72</td>
-                                        <td align="center">0:1</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2391311.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Irish.png" style="margin-right:5px;"
-                                                 alt="Irish Premier League" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Irish Premier League</td>
-                                        <td>19:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2395504.html">
-                                                Waterford
-                                                United - Shamrock Rovers
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">6.05</td>
-                                        <td align="center" class="desktop">3.93</td>
-                                        <td align="center" class="desktop">1.51</td>
-                                        <td align="center">1:4</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2395504.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/German.png" style="margin-right:5px;"
-                                                 alt="German Bundesliga" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">German Bundesliga</td>
-                                        <td>19:30</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2377774.html">
-                                                Eintracht
-                                                Frankfurt - Union Berlin
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">1.93</td>
-                                        <td align="center" class="desktop">3.67</td>
-                                        <td align="center" class="desktop">3.85</td>
-                                        <td align="center">2:0</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2377774.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Portuguese.png" style="margin-right:5px;"
-                                                 alt="Portuguese Prim. Liga" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Portuguese Prim. Liga</td>
-                                        <td>19:30</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2360929.html">
-                                                Gil
-                                                Vicente - Benfica
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">6.65</td>
-                                        <td align="center" class="desktop">4.05</td>
-                                        <td align="center" class="desktop">1.51</td>
-                                        <td align="center">1:3</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2360929.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/French.png" style="margin-right:5px;"
-                                                 alt="French Ligue 2" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">French Ligue 2</td>
-                                        <td>19:45</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2363839.html">
-                                                Troyes
-                                                - Auxerre
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.32</td>
-                                        <td align="center" class="desktop">2.95</td>
-                                        <td align="center" class="desktop">3.43</td>
-                                        <td align="center">1:1</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2363839.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Irish.png" style="margin-right:5px;"
-                                                 alt="Irish Premier League" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Irish Premier League</td>
-                                        <td>19:45</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2368265.html">
-                                                Bohemians
-                                                Dublin - Sligo Rovers
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">1.38</td>
-                                        <td align="center" class="desktop">4.15</td>
-                                        <td align="center" class="desktop">8.60</td>
-                                        <td align="center">3:1</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2368265.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Irish.png" style="margin-right:5px;"
-                                                 alt="Irish Premier League" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Irish Premier League</td>
-                                        <td>19:45</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2358840.html">
-                                                St.
-                                                Patrick's Athletic - Derry City
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.34</td>
-                                        <td align="center" class="desktop">2.94</td>
-                                        <td align="center" class="desktop">3.20</td>
-                                        <td align="center">2:0</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2358840.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Irish.png" style="margin-right:5px;"
-                                                 alt="Irish Premier League" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Irish Premier League</td>
-                                        <td>19:45</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2374766.html">
-                                                Dundalk
-                                                - Cork City
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">1.14</td>
-                                        <td align="center" class="desktop">6.50</td>
-                                        <td align="center" class="desktop">20.50</td>
-                                        <td align="center">4:1</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2374766.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Italian.png" style="margin-right:5px;"
-                                                 alt="Italian Serie C Girone A" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Italian Serie C Girone A</td>
-                                        <td>19:45</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2358839.html">
-                                                Pro
-                                                Vercelli - Novara
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.47</td>
-                                        <td align="center" class="desktop">3.05</td>
-                                        <td align="center" class="desktop">2.80</td>
-                                        <td align="center">0:2</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2358839.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Argentinian.png" style="margin-right:5px;"
-                                                 alt="Argentinian Primera B Nacional" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Argentinian Primera B Nacional</td>
-                                        <td>20:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2383664.html">
-                                                CA
-                                                Platense - Nueva Chicago
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.03</td>
-                                        <td align="center" class="desktop">3.07</td>
-                                        <td align="center" class="desktop">3.68</td>
-                                        <td align="center">0:2</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2383664.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Eng..png" style="margin-right:5px;"
-                                                 alt="Eng. Premier League" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Eng. Premier League</td>
-                                        <td>20:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2370755.html">
-                                                Liverpool
-                                                - West Ham
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">1.17</td>
-                                        <td align="center" class="desktop">8.05</td>
-                                        <td align="center" class="desktop">16.25</td>
-                                        <td align="center">2:0</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2370755.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Irish.png" style="margin-right:5px;"
-                                                 alt="Irish Premier League" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Irish Premier League</td>
-                                        <td>20:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2395505.html">
-                                                Finn
-                                                Harps - Shelbourne FC
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.73</td>
-                                        <td align="center" class="desktop">3.00</td>
-                                        <td align="center" class="desktop">2.63</td>
-                                        <td align="center">1:1</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2395505.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Italian.png" style="margin-right:5px;"
-                                                 alt="Italian Serie B" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Italian Serie B</td>
-                                        <td>20:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2360891.html">
-                                                Perugia
-                                                - Empoli
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.42</td>
-                                        <td align="center" class="desktop">3.15</td>
-                                        <td align="center" class="desktop">3.03</td>
-                                        <td align="center">2:1</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2360891.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Peruvian.png" style="margin-right:5px;"
-                                                 alt="Peruvian Primera" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Peruvian Primera</td>
-                                        <td>20:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2368300.html">
-                                                Deportivo
-                                                Llacuabamba - Deportivo San Martin
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">1.87</td>
-                                        <td align="center" class="desktop">3.63</td>
-                                        <td align="center" class="desktop">3.70</td>
-                                        <td align="center">0:0</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2368300.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Venezuelan.png" style="margin-right:5px;"
-                                                 alt="Venezuelan Primera" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Venezuelan Primera</td>
-                                        <td>20:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2364056.html">
-                                                Zulia
-                                                - LALA FC
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">1.67</td>
-                                        <td align="center" class="desktop">3.70</td>
-                                        <td align="center" class="desktop">4.50</td>
-                                        <td align="center">0:1</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2364056.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Colombian.png" style="margin-right:5px;"
-                                                 alt="Colombian Primera B" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Colombian Primera B</td>
-                                        <td>20:30</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2391743.html">
-                                                Bogota
-                                                FC - Atletico
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">1.49</td>
-                                        <td align="center" class="desktop">4.23</td>
-                                        <td align="center" class="desktop">5.45</td>
-                                        <td align="center">1:1</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2391743.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Chilean.png" style="margin-right:5px;"
-                                                 alt="Chilean Primera" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Chilean Primera</td>
-                                        <td>21:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2356813.html">
-                                                Curico
-                                                Unido - Colo Colo
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">3.15</td>
-                                        <td align="center" class="desktop">3.45</td>
-                                        <td align="center" class="desktop">2.12</td>
-                                        <td align="center">1:2</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2356813.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Paraguayan.png" style="margin-right:5px;"
-                                                 alt="Paraguayan Primera" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Paraguayan Primera</td>
-                                        <td>21:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2390738.html">
-                                                General
-                                                Diaz - Guairena FC
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.34</td>
-                                        <td align="center" class="desktop">3.47</td>
-                                        <td align="center" class="desktop">2.75</td>
-                                        <td align="center">2:0</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2390738.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Venezuelan.png" style="margin-right:5px;"
-                                                 alt="Venezuelan Primera" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Venezuelan Primera</td>
-                                        <td>22:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2364059.html">
-                                                Monagas
-                                                SC - Yaracuyanos FC
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">1.83</td>
-                                        <td align="center" class="desktop">3.25</td>
-                                        <td align="center" class="desktop">4.25</td>
-                                        <td align="center">1:0</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2364059.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Argentinian.png" style="margin-right:5px;"
-                                                 alt="Argentinian Primera B Nacional" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Argentinian Primera B Nacional</td>
-                                        <td>22:05</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2383722.html">
-                                                Club
-                                                Atletico Temperley - Guillermo Brown
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">1.94</td>
-                                        <td align="center" class="desktop">3.08</td>
-                                        <td align="center" class="desktop">4.02</td>
-                                        <td align="center">1:0</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2383722.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Argentinian.png" style="margin-right:5px;"
-                                                 alt="Argentinian Primera" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Argentinian Primera</td>
-                                        <td>22:40</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2354628.html">
-                                                Defensa
-                                                Y Justicia - Rosario Central
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.09</td>
-                                        <td align="center" class="desktop">3.02</td>
-                                        <td align="center" class="desktop">3.83</td>
-                                        <td align="center">1:0</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2354628.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Brazilian.png" style="margin-right:5px;"
-                                                 alt="Brazilian Paulista A2" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Brazilian Paulista A2</td>
-                                        <td>23:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2366753.html">
-                                                São
-                                                Bento SP - Sao Caetano SP
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">1.89</td>
-                                        <td align="center" class="desktop">3.23</td>
-                                        <td align="center" class="desktop">4.00</td>
-                                        <td align="center">2:0</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2366753.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Colombian.png" style="margin-right:5px;"
-                                                 alt="Colombian Primera B" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Colombian Primera B</td>
-                                        <td>23:00</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2391967.html">
-                                                Orsomarso
-                                                - Union Magdalena
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.34</td>
-                                        <td align="center" class="desktop">3.13</td>
-                                        <td align="center" class="desktop">2.91</td>
-                                        <td align="center">2:0</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2391967.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Paraguayan.png" style="margin-right:5px;"
-                                                 alt="Paraguayan Primera" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Paraguayan Primera</td>
-                                        <td>23:15</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2390739.html">
-                                                Sportivo
-                                                San Lorenzo - Sportivo Luqueño
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.57</td>
-                                        <td align="center" class="desktop">3.30</td>
-                                        <td align="center" class="desktop">2.57</td>
-                                        <td align="center">2:0</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2390739.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Argentinian.png" style="margin-right:5px;"
-                                                 alt="Argentinian Primera B Nacional" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Argentinian Primera B Nacional</td>
-                                        <td>23:30</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2394113.html">
-                                                Santamarina
-                                                de Tandil - Chacarita Juniors
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.14</td>
-                                        <td align="center" class="desktop">2.97</td>
-                                        <td align="center" class="desktop">3.48</td>
-                                        <td align="center">0:0</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2394113.html">More</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/image/flags/Chilean.png" style="margin-right:5px;"
-                                                 alt="Chilean Primera" width="16" height="16">
-                                        </td>
-                                        <td class="desktop">Chilean Primera</td>
-                                        <td>23:30</td>
-                                        <td>
-                                            <a href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2356815.html">
-                                                O'Higgins
-                                                - Union Espanola
-                                            </a>
-                                        </td>
-                                        <td align="center" class="desktop">2.26</td>
-                                        <td align="center" class="desktop">3.32</td>
-                                        <td align="center" class="desktop">2.97</td>
-                                        <td align="center">2:1</td>
-                                        <td align="right">
-                                            <a class="button grey"
-                                               href="https://www.bettingtips1x2.com/football-betting-tips/2020-02-24/2356815.html">More</a>
-                                        </td>
-                                    </tr>
+                                    </tr>    
                                 </tbody>
                             </table>
                         </div>
@@ -1576,18 +291,18 @@
 
                         </div>
                         <div class="inner leftMargin">
-                            <a target="_blank" href="http://paypal.com/"><img src="assets/image/flags/paypal.png"></a>
+                            <!--<a target="_blank" href="http://paypal.com/"><img src="assets/image/flags/paypal.png"></a>-->
                         </div>
                         <div class="inner leftMargin">
-                            <a target="_blank" href="http://skrill.com/"><img src="assets/image/flags/skrill.png"></a>
+                            <!--<a target="_blank" href="http://skrill.com/"><img src="assets/image/flags/skrill.png"></a>-->
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td class="footer" colspan="3">
                         OUR FRIENDS<br><a href="#" target="_blank"
-                                          title="bettingtipsters.org">Betting Tipsters</a> | <a href="http://mypredictions.com/"
-                                                                                                target="_blank" title="vippredictions.com">Vip Predictions</a>
+                                          title="#">Betting Tipsters</a> | <a href="#"
+                                                                              target="_blank" title="vippredictions.com">Vip Predictions</a>
                         <hr><a class="button" href="contact.html">Contact us</a><br><a href="#" title="Betting tips 1X2">2020 wwww.myprediction.com</a>
                     </td>
                 </tr>
@@ -1597,6 +312,7 @@
     </div>
 
 
+    <script type="text/javascript" src="assets/js/index.js"></script>
 </body>
 
 </html>
